@@ -1,0 +1,172 @@
+---
+title: "Netflix_EDA"
+author: "Kadir Baver Kerimoglu"
+date: "03 11 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+In this assignment i am going to be exploring the Netflix data.
+
+This dataset consists of TV shows & movies suitable on Netflix as of 2019 and part of 2020.
+
+
+
+
+
+```{r data reading}
+
+
+
+netds <- read.csv("netflix_titles.csv", na.strings = c("", "NA"), stringsAsFactors =FALSE)
+
+
+
+```
+
+
+* In the dataset there are 6234 observations of 12 following variables describing the tv shows and movies
+
+
+```{r data_table}
+
+
+library(plotly)
+
+
+values_table1 <- rbind(c('Show_ID', 'Type', 'Title', 'Director', 'Cast', 'Country', 'Date_added', 'Release_year', 'Rating' , 'Duration', 'Listed_in', 'Description'), c("Netflix ID for Every Movie & Tv Shows", 
+     "Identifier - A Movie or TV Show", 
+     "Title of the Movie or TV Show", 
+     "Director of the Movie /TV Show", 
+    "Actors involved in the Movie / TV Show",
+    "Country where the movie / show was produced",
+    "Added date on Netflix",
+    "Actual release year of the Movie / TV Show",
+    "Rating type of the Movie or TV Show",
+    "Total Duration - in minutes or number of seasons",
+    "Genere",
+    "The summary description"))
+
+desc_table <- plot_ly(
+  type = 'table',
+  columnorder = c(1,2),
+  columnwidth = c(12,12),
+  header = list(
+    values = c('<b>VARIABLES</b><br>', '<b>DESCRIPTION</b>'),
+    line = list(color = '#506784'),
+    fill = list(color = '#119DFF'),
+    align = c('left','center'),
+    font = list(color = 'white', size = 12),
+    height = 40
+  ),
+  cells = list(
+    values = values_table1,
+    line = list(color = '#506784'),
+    fill = list(color = c('#25FEFD', 'white')),
+    align = c('left', 'left'),
+    font = list(color = c('#506784'), size = 12),
+    height = 30
+    ))
+desc_table
+
+
+
+
+```
+## Data Cleaning
+
+I will get rid of columns that are not necessary for my Netflix analysis.
+
+```{r}
+
+netds$cast <- NULL
+
+```
+
+```{r}
+netds$rating <- as.factor(netds$rating)
+```
+
+```{r}
+library(lubridate)
+
+netds$date_added <- mdy(netds$date_added)
+
+```
+
+```{r}
+netds$listed_in <- as.factor(netds$listed_in)
+netds$type <- as.factor(netds$type)
+```
+
+```{r}
+data.frame("Variable"=c(colnames(netds)), "Missing Values"=sapply(netds, function(x) sum(is.na(x))), row.names=NULL)
+```
+```{r}
+mode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+netds$rating[is.na(netds$rating)] <- mode(netds$rating)
+```
+
+```{r}
+data.frame("Variable"=c(colnames(netds)), "Missing Values"=sapply(netds, function(x) sum(is.na(x))), row.names=NULL)
+```
+
+I will use title, country, type, duration variables for my analysis.
+
+```{r}
+
+library(dplyr)
+netds=distinct(netds, title, country, type, release_year, .keep_all = TRUE)
+
+```
+
+
+
+## Data Visualisation
+
+I will discover Which TV show and movie genres are the most in Netflix?
+
+```{r}
+library(crayon)
+
+netds$listed_in<- as.character(netds$listed_in)
+t20 <- strsplit(netds$listed_in, split = ", ")
+count_listed_in<- data.frame(type = rep(netds$type, 
+                                        sapply(t20, length)), 
+                             listed_in = unlist(t20))
+count_listed_in$listed_in <- as.character(gsub(",","",count_listed_in$listed_in))
+df_count_listed_in <- count_listed_in %>% 
+                            group_by(listed_in) %>% 
+                            summarise(count = n()) %>% 
+                            top_n(20) 
+fig <- plot_ly(df_count_listed_in, x= ~listed_in, y= ~df_count_listed_in$count, type = "bar" )
+fig <- fig %>% layout(xaxis=list(categoryorder = "array", 
+                                         categoryarray = df_count_listed_in$listed_in,
+                                         title="Genre"), yaxis = list(title = 'Count'),
+                                         title="20 Top Genres On Netflix")
+fig
+
+```
+
+As we can see above, International movies&TV shows are the most common popular programs.
+
+
+This is the short analysis of the which programs are the most popular in netflix. If we have more data and features like user rating, total watch etc. We could have been expanded our analysis further to gain useful information.
+
+Thanks to Yigit Erol I performed my analysis about netflix data.
+
+You can see his analysis and GitHub Repo in the links below.
+
+https://github.com/ygterl/EDA-Netflix-2020-in-R/blob/master/Output-%20Exploration%20of%20Netflix%20Dataset%20in%20R.pdf
+
+https://github.com/ygterl/EDA-Netflix-2020-in-R/blob/master/analiz.Rmd
+
+
