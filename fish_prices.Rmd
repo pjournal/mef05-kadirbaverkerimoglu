@@ -1,0 +1,74 @@
+---
+title: "IZMIR FISH MARKET PRICES"
+author: "Kadir Baver Kerimoglu"
+date: "20 11 2021"
+output: html_document
+---
+
+```{r}
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(tidyr)
+```
+
+```{r}
+library(readr)
+balik_hal_fiyatlari <- read.csv(file = "C:/Users/kbkerimoglu/balik_hal_fiyatlari.csv", 
+                                stringsAsFactors = FALSE, header = TRUE,sep = ";", encoding="UTF-8")
+                                
+```
+
+
+## Basic Exploration
+
+
+*Although average percentage change prices are close to each other, fish prices are most volatile for MERCAN(BÜYÜKBOY) and BARBUN(TEKİR). Moreover, when we examine according to seasons price, "SONBAHAR" price is almost 50% higher than the "KIS" price.*
+
+
+
+```{r}
+  balik_hal_fiyatlari %>% filter(MAL_TURU == 'BALIK') %>%
+  mutate(DAILY_DF = AZAMI_UCRET - ASGARI_UCRET) %>% group_by(MAL_ADI) %>%
+  summarise(DAILY_DF_AVG = mean(DAILY_DF)) %>% 
+  arrange(desc(DAILY_DF_AVG)) %>% head(5)
+```
+
+```{r}
+  plot_vis <- balik_hal_fiyatlari %>% filter(MAL_TURU == 'BALIK') %>%
+  mutate(DAILY_DF = AZAMI_UCRET - ASGARI_UCRET) %>% group_by(MAL_ADI) %>%
+  summarise(DAILY_DF_AVG = mean(DAILY_DF)) %>% 
+  arrange(desc(DAILY_DF_AVG)) %>% head(5)
+  ggplot(plot_vis, aes(x = MAL_ADI, y = DAILY_DF_AVG, fill=MAL_ADI)) +
+    geom_bar(stat = "identity")
+```
+```{r}
+balik_hal_fiyatlari %>% filter(MAL_TURU == 'BALIK') %>% 
+  mutate(DAILY_DF = AZAMI_UCRET - ASGARI_UCRET, DAILY_AVG = (AZAMI_UCRET + ASGARI_UCRET) / 2)%>%
+  mutate(DAILY_AVG_PERCENTAGE = (DAILY_DF /2) / DAILY_AVG*100) %>% group_by(MAL_ADI) %>%
+  summarise(MEAN_AVG_PERCENTAGE = mean(DAILY_AVG_PERCENTAGE), MEAN_DAILY_DF = mean(DAILY_DF)) %>%
+  arrange(desc(MEAN_AVG_PERCENTAGE)) %>% head(5)
+
+```
+```{r}
+plot_perc <- balik_hal_fiyatlari %>% filter(MAL_TURU == 'BALIK') %>% 
+  mutate(DAILY_DF = AZAMI_UCRET - ASGARI_UCRET, DAILY_AVG = (AZAMI_UCRET + ASGARI_UCRET) / 2)%>%
+  mutate(DAILY_AVG_PERCENTAGE = (DAILY_DF /2) / DAILY_AVG*100) %>% group_by(MAL_ADI) %>%
+  summarise(MEAN_AVG_PERCENTAGE = mean(DAILY_AVG_PERCENTAGE), MEAN_DAILY_DF = mean(DAILY_DF)) %>%
+  arrange(desc(MEAN_AVG_PERCENTAGE)) %>% head(5)
+ggplot(plot_perc, aes(x = MEAN_AVG_PERCENTAGE, y = MEAN_DAILY_DF, fill = MAL_ADI)) + geom_bar(stat = 'identity', alpha = 0.5, size = 5)
+```
+```{r}
+plot_seasons <- balik_hal_fiyatlari %>% mutate(AY=lubridate::month(TARIH)) %>%
+  mutate(TARIH_MEVSIM=case_when(AY<=12 & AY>=9 ~"SONBAHAR",  AY <=9 & AY >=6 ~ "YAZ",  AY<=6 & AY>=3 ~"ILKBAHAR", AY<3 ~ "KIS"), DAILY_DF = AZAMI_UCRET- ASGARI_UCRET)%>%
+  group_by(TARIH_MEVSIM)%>% summarise(MEAN_DAILY_DF=mean(DAILY_DF))
+plot_seasons
+  
+  
+```
+```{r}
+ggplot(plot_seasons, aes(x = reorder(TARIH_MEVSIM,MEAN_DAILY_DF), y = MEAN_DAILY_DF, fill = TARIH_MEVSIM)) +
+  geom_bar(stat = 'identity')
+  
+```
+
