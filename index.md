@@ -6,7 +6,7 @@
 
     [Assignment 1: RMarkdown](Assignment_1-RMarkdown.html)
 
-- A real estate report has been prepared by using dplyr and ggplot2.
+- A real fish market prices report has been prepared by using dplyr and ggplot2.
 
     [In-Class Exercise (Bonus Assignment)](fish_prices.html)
 
