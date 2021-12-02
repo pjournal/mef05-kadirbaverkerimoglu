@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+# *Welcome*
 
-You can use the [editor on GitHub](https://github.com/pjournal/gh-pages-template/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+## Assignments
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+- An RMarkdown report includes a brief self-introduction and some informative documents related to R.
 
-### Markdown
+    [Assignment 1: RMarkdown](Assignment_1-RMarkdown.html)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- A real estate report has been prepared by using dplyr and ggplot2.
 
-```markdown
-Syntax highlighted code block
+    [In-Class Exercise (Bonus Assignment)](fish_prices.html)
 
-# Header 1
-## Header 2
-### Header 3
+- An EDA for Netflix Analysis and this analysis is about which genres prefered more on Netflx
 
-- Bulleted
-- List
+    [Assignment 2: Netfflix_Analysis](Netflix_EDA.html)
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+## Group The Wall
+[The Wall's Progress Journal](https://github.com/pjournal/mef05g-the-wall)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Assignment
 
-### Jekyll Themes
+In this assignment, the main purpose is to make an exploratory data analysis by using the fishprice dataset.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/pjournal/gh-pages-template/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- Data: [balik_hal_fiyatlari.csv](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/fishmarket/balik_hal_fiyatlari.csv)
+- Exploratory Data Analysis (EDA): [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/fishmarket/app.R)
+- Shiny App:You can use this [link](https://thewall.shinyapps.io/fishmarket/)
+    or you can run the shiny app by just typing the following code in your own R-console;
+    **`shiny::runGitHub("pjournal/mef05g-the-wall",subdir="fishmarket/app.R",ref='gh-pages')`**
