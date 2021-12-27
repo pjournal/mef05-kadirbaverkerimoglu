@@ -34,3 +34,9 @@ In this assignment, the main purpose is to make an exploratory data analysis by 
 Data Analysis Project for Foreign Trade Statistics-Vehicle and Trailer Tracking
 
 - Proposal: [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/FinalProject/project_proposal.html)
+- Exploratory Data Analysis (EDA): [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/FinalProject/EDA_ForeignTradeStatistics.html)
+- Shiny App: You can use this [link](https://thewall.shinyapps.io/ForeignTradeStatistics_ShinyApp/)
+    or you can run the shiny app by just typing the following code in your own R-console;
+    **`shiny::runGitHub("pjournal/mef05g-the-wall",subdir="FinalProject",ref='gh-pages')`**
+- Final Report: [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/FinalProject/final_report.html)
+- Presentation: [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/FinalProject/presentation.html)
