@@ -28,3 +28,9 @@ In this assignment, the main purpose is to make an exploratory data analysis by 
 - Shiny App:You can use this [link](https://thewall.shinyapps.io/fishmarket/)
     or you can run the shiny app by just typing the following code in your own R-console;
     **`shiny::runGitHub("pjournal/mef05g-the-wall",subdir="fishmarket/app.R",ref='gh-pages')`**
+
+### Project
+
+Data Analysis Project for Foreign Trade Statistics-Vehicle and Trailer Tracking
+
+- Proposal: [html](https://github.com/pjournal/mef05g-the-wall/blob/gh-pages/FinalProject/project_proposal.html)
